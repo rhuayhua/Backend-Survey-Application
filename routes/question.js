@@ -15,10 +15,12 @@ function requireAuth(req, res, next)
     next();
 }
 
-/* GET users listing. */
-router.get('/add/:id', requireAuth,questionController.displayAddQuestion);
+
 
 // Post method to handle the Edit Items process
-router.post('/add/:id',requireAuth,questionController.processAddQuestion);
+router.post('/add/:id',questionController.processAddQuestion); // test done 
+
+/* GET users listing. */
+router.get('/preview/:id',questionController.showQuestions); // test done
 
 module.exports = router;

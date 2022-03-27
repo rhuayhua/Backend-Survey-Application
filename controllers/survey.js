@@ -1,7 +1,5 @@
 let Survey = require('../models/survey');
-let Question = require('../models/question');
 
-let Answer = require('../models/answer')
 
 function getErrorMessage(err) { ///
     if (err.errors) {
@@ -14,7 +12,7 @@ function getErrorMessage(err) { ///
 };
 
 
-exports.listAttend = function (req, res, next) {
+exports.listSurveys = function (req, res, next) {
 
     Survey.find((err, surveyList) => {
         if (err) {
@@ -39,82 +37,6 @@ exports.listAttend = function (req, res, next) {
             res.status(200).json(surveyList);
         }
     })
-}
-
-exports.listEdit = function (req, res, next) {
-
-    Survey.find((err, surveyList) => {
-        if (err) {
-            return console.error(err);
-        }
-        else {
-            //console.log(surveyList);
-            res.render(
-                'survey/list_edit',
-                {
-                    title: 'Edit Survey',
-                    SurveyList: surveyList,
-                    userName: req.user ? req.user.username : ''
-                }
-            );
-        }
-    })
-}
-
-exports.attendSurvey = function (req, res, next) {
-
-    let id = req.params.id;
-
-    Question.find({ surveyId: id }, (err, question) => {
-        if (err) {
-            console.log("error")
-
-            return console.error(err);
-        }
-        else {
-
-            res.render(
-                'survey/attend',
-                {
-                    title: 'Attend Survey',
-                    question: question
-                }
-            );
-        }
-    })
-}
-
-
-exports.postSurveyResults = (req, res, next) => {
-    let id = req.params.id;
-
-    let answerArray = []
-
-    const obj = Object.assign({}, req.body)
-
-    for (var ans in obj) {
-        if (obj.hasOwnProperty(ans)) {
-            answerArray.push(obj[ans])
-        }
-    }
-
-    let userAnswers = Answer({
-        surveyId: id,
-        responses: answerArray
-    })
-
-    Answer.create(userAnswers, (err, item) => {
-        if (err) {
-            console.log(err)
-            res.end(err);
-        }
-
-        else {
-            console.log(item);
-            res.redirect('/survey/list_attend');
-        }
-    });
-
 }
 
 
@@ -228,30 +150,7 @@ module.exports.processEditSurvey = (req, res, next) => {
     });
 }
 
-exports.previewSurvey = function (req, res, next) {
 
-
-    let id = req.params.id;
-    console.log("here");
-    console.log(id);
-    //.find( { _id: 5 } )
-    Question.find({ surveyId: id }, (err, survey) => {
-        if (err) {
-            return console.error(err);
-        }
-        else {
-            console.log(survey);
-            res.render(
-                'survey/preview',
-                {
-                    title: 'Preview Survey',
-                    survey: survey,
-                    surveyId: id
-                }
-            );
-        }
-    })
-}
 
 module.exports.performDelete = (req, res, next) => {
     let id = req.params.id;

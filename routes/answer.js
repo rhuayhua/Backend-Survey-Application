@@ -15,5 +15,7 @@ function requireAuth(req, res, next)
     next();
 }
 
+/* POST method to post the survey results*/
+router.post('/attend/:id', answerController.processResponse); // test done
 
 module.exports = router;
