@@ -8,13 +8,14 @@ var dbConfig = require('./config/db');
 var app = require('./config/app');
 var debug = require('debug')('mytest:server');
 var http = require('http');
-var passportConfig = require('./config/passport');
+///var passportConfig = require('./config/passport');
+var passportConfig = require('./config/local');
 
 /**
  * Get port from environment and store in Express.
  */
 let db = dbConfig();
-var port = normalizePort(process.env.PORT || '3900');
+var port = normalizePort(process.env.PORT || '3901');
 app.set('port', port);
 
 /**

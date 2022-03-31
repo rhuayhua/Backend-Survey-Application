@@ -5,14 +5,14 @@ let useController = require('../controllers/user');
 
 
 // Sign-up
-router.get('/signup', useController.renderSignup);
+///router.get('/signup', useController.renderSignup);
 router.post('/signup', useController.signup);
 
 // Sign-in
-router.get('/signin', useController.renderSignin);
+///router.get('/signin', useController.renderSignin);
 router.post('/signin', useController.signin);
 
 // Sign-out
-router.get('/signout', useController.signout);
+///router.get('/signout', useController.signout);
 
 module.exports = router;

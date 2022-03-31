@@ -7,6 +7,8 @@ let logger = require('morgan');
 ///let flash = require('connect-flash');
 let passport = require('passport');
 let errorHandler = require('./error-handler');///
+let compression = require('compression');///
+let  cors = require('cors');///
 
 
 
@@ -18,6 +20,11 @@ let questionRouter = require('../routes/question');
 let answerRouter = require('../routes/answer');
 
 let app = express();
+
+app.use(compression());///
+
+app.use(cors());///
+
 
 // app.use(session({
 //   saveUninitialized: true,
