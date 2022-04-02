@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-
 let answerController = require('../controllers/answer');
 
 // helper function for guard purposes
