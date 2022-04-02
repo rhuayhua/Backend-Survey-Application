@@ -80,6 +80,7 @@ module.exports.processAddSurvey = (req, res, next) => {
             );
         }
         else {
+            console.log("added");
             console.log(item);
             ///res.redirect('/survey/list_edit');// redirect to page to add questions
             res.status(200).json(item);///
