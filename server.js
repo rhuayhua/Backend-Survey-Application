@@ -15,7 +15,7 @@ var passportConfig = require('./config/local');
  * Get port from environment and store in Express.
  */
 let db = dbConfig();
-var port = normalizePort(process.env.PORT || '3901');
+var port = normalizePort(process.env.PORT || '3905');
 app.set('port', port);
 
 /**

@@ -16,7 +16,7 @@ module.exports.displayAddQuestion = (req, res, next) => {
 }
 
 
-module.exports.processAddQuestion = (req, res, next) => {
+module.exports.processAddQuestionMC = (req, res, next) => {
     let id = req.params.id;
     console.log(id);
     console.log(req.body.question);
@@ -85,6 +85,43 @@ exports.showQuestions = function (req, res, next) {
             res.status(200).json(survey);
         }
     })
+}
+
+module.exports.processAddQuestionAD = (req, res, next) => {
+    let id = req.params.id;
+    console.log("Inside processAddQuestionAgDsg");
+    console.log(id);
+    console.log(req.body.question);
+
+    let qs = req.body.question.split(",").map(word => word.trim());
+    console.log(qs);
+
+    let arrayQ = [];
+    for (let i = 0; i < qs.length; i++) {
+        arrayQ[i] = {surveyId: id, question: qs[i]};
+      } 
+
+    console.log("This is arrayQ", arrayQ);
+    Question.insertMany(arrayQ, (err, item) =>{
+        if(err)
+        {
+            console.log(err);
+            return res.status(400).json(///
+                { 
+                  success: false, 
+                  message: getErrorMessage(err)
+                }
+              );
+        }
+        else
+        {
+            console.log("added");
+            console.log(item);
+            ///res.redirect('/survey/list_edit');// redirect to page to add questions
+            res.status(200).json(item);
+        }
+    });
+
 }
 
   
