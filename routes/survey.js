@@ -41,7 +41,7 @@ function requireAuth(req, res, next)
 router.get('/list_attend', surveyController.listSurveys);// test done
 
 // Post method to handle the Add Items process
-router.post('/add',surveyController.processAddSurvey); // test done
+router.post('/add',requireAuth,surveyController.processAddSurvey); // test done
 
 // Post method to handle the Edit Items process
 router.put('/edit/:id',requireAuth,surveyController.processEditSurvey); // test done
