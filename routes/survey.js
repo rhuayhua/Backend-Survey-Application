@@ -41,13 +41,13 @@ function requireAuth(req, res, next)
 router.get('/list_attend', surveyController.listSurveys);// test done
 
 // Post method to handle the Add Items process
-router.post('/add',requireAuth,surveyController.processAddSurvey); // test done
+router.post('/add',surveyController.processAddSurvey); // test done
 
 // Post method to handle the Edit Items process
-router.put('/edit/:id',requireAuth,surveyController.processEditSurvey); // test done
+router.put('/edit/:id',surveyController.processEditSurvey); // test done
 
 // delete
-router.delete('/delete/:id',requireAuth,surveyController.performDelete); // test done
+router.delete('/delete/:id',surveyController.performDelete); // test done
 
 
 

@@ -26,14 +26,6 @@ exports.listSurveys = function (req, res, next) {
         }
         else {
             console.log(surveyList);
-            // res.render(
-            //     'survey/list_attend',
-            //     {
-            //         title: 'Active Surveys',
-            //         SurveyList: surveyList,
-            //         userName: req.user ? req.user.username : ''
-            //     }
-            // );
             res.status(200).json(surveyList);
         }
     })

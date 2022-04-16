@@ -39,8 +39,8 @@ function requireAuth(req, res, next)
 
 
 // Post method to handle the Edit Items process
-router.post('/addsingle/:id',requireAuth,questionController.processAddQuestionMC); // test done 
-router.post('/addmultiple/:id',requireAuth,questionController.processAddQuestionAD); // test done 
+router.post('/addsingle/:id',questionController.processAddQuestionMC); // test done 
+router.post('/addmultiple/:id',questionController.processAddQuestionAD); // test done 
 
 /* GET users listing. */
 router.get('/preview/:id',questionController.showQuestions); // test done
