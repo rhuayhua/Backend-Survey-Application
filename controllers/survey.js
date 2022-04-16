@@ -56,7 +56,8 @@ module.exports.processAddSurvey = (req, res, next) => {
         type: req.body.type,
         status: req.body.status,
         startDate: req.body.startDate,
-        endDate: req.body.endDate
+        endDate: req.body.endDate,
+        username: req.body.username
 
     });
 
@@ -148,26 +149,78 @@ module.exports.processEditSurvey = (req, res, next) => {
 module.exports.performDelete = (req, res, next) => {
     let id = req.params.id;
 
-    Survey.remove({ _id: id }, (err) => {
+    // check username
+    //console.log(req.user.username);
+
+    if (err) {
+        console.error(err);
+        Survey.remove({ _id: id }, (err) => {
+            if (err) {
+                console.log(err);
+                //res.end(err);
+                return res.status(400).json(///
+                    { 
+                      success: false, 
+                      message: getErrorMessage(err)
+                    }
+                );
+            }
+            else {
+                // refresh the book list
+                //res.redirect('/survey/list_edit');
+                return res.status(200).json(///
+                    { 
+                        success: true, 
+                        message: 'Item deleted successfully.'
+                    }
+                );
+            }
+        });
+        
+    }
+    else {
+        console.log(surveyList);
+        return res.status(200).json(///
+                    { 
+                        success: true, 
+                        message: 'unauthorized user.'
+                    }
+                );
+      
+    }
+
+
+    
+}
+
+exports.countSurveys = function (req, res, next) {
+
+    const pipeline = [
+        {
+            '$group': {
+                '_id': '$type',
+                SurveysbyType: {$sum:1}
+            }
+        }
+    ];
+
+    Survey.aggregate(pipeline, (err, responsesList) => {
         if (err) {
-            console.log(err);
-            //res.end(err);
+            console.error(err);
             return res.status(400).json(///
                 { 
                   success: false, 
                   message: getErrorMessage(err)
                 }
-            );
+              );
         }
         else {
-            // refresh the book list
-            //res.redirect('/survey/list_edit');
-            return res.status(200).json(///
-                { 
-                    success: true, 
-                    message: 'Item deleted successfully.'
-                }
-            );
+            console.log(responsesList);
+            res.status(200).json(responsesList);
         }
-    });
+    })
+
+
+
+   
 }

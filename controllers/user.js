@@ -27,30 +27,16 @@ function getErrorMessage(err) {
     return message;
   };
 
-// module.exports.renderSignup = function(req, res, next) {
-//     if (!req.user) {
-  
-//       // creates a empty new user object.
-//       let newUser = User();
-  
-//       res.render('auth/signup', {
-//         title: 'Sign-up Form',
-//         messages: req.flash('error'),
-//         user: newUser
-//       });
-  
-//     } else {
-//       return res.redirect('/');
-//     }
-// };
+
 
 module.exports.signup = function(req, res, next) {
     
-      console.log(req.body);
+      //
+      //console.log(req.body);
   
       let user = new User(req.body);
 
-      console.log(user);
+      //console.log(user.username);
   
       user.save((err) => {
         if (err) {
@@ -85,17 +71,7 @@ module.exports.signup = function(req, res, next) {
    
   };
 
-// module.exports.renderSignin = function(req, res, next) {
-//     if (!req.user) {
-//       res.render('auth/signin', {
-//         title: 'Sign-in Form',
-//         messages: req.flash('error') || req.flash('info')
-//       });
-//     } else {
-//       console.log(req.user);
-//       return res.redirect('/');
-//     }
-// };
+
 
 module.exports.signin = function(req, res, next){
   passport.authenticate(
@@ -124,7 +100,11 @@ module.exports.signin = function(req, res, next){
               if (error) {
                 return next(error);
               }
-              const payload = { id: user._id, email: user.email };
+              const payload = { 
+                
+                id: user._id, 
+                username: user.username 
+              };// change to user.username
               const token = jwt.sign(
                 { 
                   payload: payload

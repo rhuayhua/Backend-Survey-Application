@@ -19,6 +19,6 @@ router.post('/attend/:id', answerController.processResponse); // test done
 
 
 /* GET users listing. */
-router.get('/report', answerController.listReport);// 
+//router.get('/report', answerController.listReport);// 
 
 module.exports = router;

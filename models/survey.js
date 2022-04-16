@@ -7,7 +7,8 @@ let surveyModel = mongoose.Schema(
         type: String,
         status: String,
         startDate: String,
-        endDate: String
+        endDate: String,
+        username: String
 
     },
 
