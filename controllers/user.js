@@ -134,6 +134,47 @@ module.exports.signin = function(req, res, next){
   //delete req.session.url;
     
 } 
+module.exports.processEditProfile = (req, res, next) => {
+  let id = req.params.id
+
+  let updatedItem = User({
+      ///_id: req.body.id,
+      _id: id,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password
+  });
+
+   console.log(updatedItem);
+
+  User.updateOne({ _id: id }, updatedItem, (err) => {
+      if (err) {
+          console.log(err);
+          //res.end(err);
+          return res.status(400).json(///
+              { 
+                success: false, 
+                message: getErrorMessage(err)
+              }
+          );
+
+      }
+      else {
+          console.log(req.body);
+          // refresh the book list
+          ///res.redirect('/survey/list_edit');
+          return res.status(200).json(///
+              { 
+                  success: true, 
+                  message: 'profile updated successfully.'
+              }
+          );
+      }
+  });
+}
+
 
 // module.exports.signout = function(req, res, next) {
 //     req.logout();
