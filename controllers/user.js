@@ -149,6 +149,7 @@ module.exports.processEditProfile = (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
+      password: req.body.password
 
   });
 
@@ -168,8 +169,6 @@ module.exports.processEditProfile = (req, res, next) => {
       }
       else {
           console.log(req.body);
-          // refresh the book list
-          ///res.redirect('/survey/list_edit');
           return res.status(200).json(///
               { 
                   success: true, 
