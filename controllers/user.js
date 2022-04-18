@@ -134,14 +134,9 @@ module.exports.signin = function(req, res, next){
   //delete req.session.url;
     
 } 
-module.exports.current_user = (req,res) =>{
-  return res.status(200).send({
-    message:'current user data sucessfully fetched',
-    data: req.user
-  });
-}
+
 module.exports.processEditProfile = (req, res, next) => {
-  let id = current_user._id
+  let id = User._id
 
   let updatedItem = User({
       ///_id: req.body.id,
