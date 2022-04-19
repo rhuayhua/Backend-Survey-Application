@@ -140,7 +140,7 @@ module.exports.processEditProfile = (req, res, next) => {
 
   let updatedItem = User({
       ///_id: req.body.id,
-      _id: id,
+      username: User.username,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
