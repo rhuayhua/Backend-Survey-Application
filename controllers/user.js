@@ -150,7 +150,7 @@ module.exports.processEditProfile = (req, res, next) => {
 
    console.log(updatedItem);
 
-  User.updateOne({ username: username }, updatedItem, (err) => {
+  User.updateOne({ _id: username }, updatedItem, (err) => {
       if (err) {
           console.log(err);
           //res.end(err);
