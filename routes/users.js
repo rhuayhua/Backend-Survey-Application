@@ -11,7 +11,7 @@ router.post('/signup', useController.signup);
 // Sign-in
 ///router.get('/signin', useController.renderSignin);
 router.post('/signin', useController.signin);
-router.put('/edit/:id',useController.processEditProfile); // test done
+router.put('/edit/:username',useController.processEditProfile); // test done
 // Sign-out
 ///router.get('/signout', useController.signout);
 

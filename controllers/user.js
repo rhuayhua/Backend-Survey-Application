@@ -136,7 +136,7 @@ module.exports.signin = function(req, res, next){
 } 
 
 module.exports.processEditProfile = (req, res, next) => {
-  let id = User._id
+  let username = User.username
 
   let updatedItem = User({
       ///_id: req.body.id,
@@ -150,7 +150,7 @@ module.exports.processEditProfile = (req, res, next) => {
 
    console.log(updatedItem);
 
-  User.updateOne({ _id: id }, updatedItem, (err) => {
+  User.updateOne({ username: username }, updatedItem, (err) => {
       if (err) {
           console.log(err);
           //res.end(err);
