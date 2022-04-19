@@ -33,21 +33,6 @@ exports.listSurveys = function (req, res, next) {
 
 
 
-
-// module.exports.displayAddSurvey = (req, res, next) => {
-
-//     let newItem = Survey();
-
-//     res.render(
-//         'survey/add_edit',
-//         {
-//             title: 'Add a new Survey',
-//             item: newItem,
-//             userName: req.user ? req.user.username : ''
-//         }
-//     )
-// }
-
 module.exports.processAddSurvey = (req, res, next) => {
 
     let newItem = Survey({
@@ -81,30 +66,12 @@ module.exports.processAddSurvey = (req, res, next) => {
     });
 }
 
-// module.exports.displayEditSurvey = (req, res, next) => {
-//     let id = req.params.id;
 
-//     Survey.findById(id, (err, itemToEdit) => {
-//         if (err) {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else {
-//             //show the edit view
-//             res.render(
-//                 'survey/add_edit',
-//                 {
-//                     title: 'Edit Survey',
-//                     item: itemToEdit,
-//                     userName: req.user ? req.user.username : ''
-//                 }
-//             )
-//         }
-//     });
-// }
 
 module.exports.processEditSurvey = (req, res, next) => {
     let id = req.params.id
+
+    console.log("User trying to edit is:",req.user.username);
 
     let updatedItem = Survey({
         ///_id: req.body.id,
@@ -118,30 +85,66 @@ module.exports.processEditSurvey = (req, res, next) => {
 
      console.log(updatedItem);
 
-    Survey.updateOne({ _id: id }, updatedItem, (err) => {
+    ////////////////////////
+    Survey.findById(id, (err, surveytoCheck) => {
         if (err) {
-            console.log(err);
-            //res.end(err);
+            console.log("coudn't find survey");
             return res.status(400).json(///
-                { 
-                  success: false, 
-                  message: getErrorMessage(err)
-                }
-            );
-
+                    { 
+                        success: false, 
+                        message: 'coudnt find survey'
+                    }
+                );
         }
         else {
-            console.log(req.body);
-            // refresh the book list
-            ///res.redirect('/survey/list_edit');
-            return res.status(200).json(///
-                { 
-                    success: true, 
-                    message: 'Item updated successfully.'
-                }
-            );
+            //show the edit view
+            console.log("owner of survey is: ",surveytoCheck.username);
+
+            
+            if (req.user.username == surveytoCheck.username) {
+        
+                Survey.updateOne({ _id: id }, updatedItem, (err) => {
+                    if (err) {
+                        console.log(err);
+                        //res.end(err);
+                        return res.status(400).json(///
+                            { 
+                              success: false, 
+                              message: getErrorMessage(err)
+                            }
+                        );
+            
+                    }
+                    else {
+                        console.log(req.body);
+                        // refresh the book list
+                        ///res.redirect('/survey/list_edit');
+                        return res.status(200).json(///
+                            { 
+                                success: true, 
+                                message: 'Item updated successfully.'
+                            }
+                        );
+                    }
+                });
+                
+            }
+            else {
+                return res.status(400).json(///
+                            { 
+                                success: false, 
+                                message: 'unauthorized user'
+                            }
+                        );
+              
+            }
+        
+
         }
     });
+
+
+    
 }
 
 
@@ -150,45 +153,62 @@ module.exports.performDelete = (req, res, next) => {
     let id = req.params.id;
 
     // check username
-    //console.log(req.user.username);
+    console.log("User trying to delete is:",req.user.username);
 
-    if (err) {
-        console.error(err);
-        Survey.remove({ _id: id }, (err) => {
-            if (err) {
-                console.log(err);
-                //res.end(err);
-                return res.status(400).json(///
+    Survey.findById(id, (err, surveytoCheck) => {
+        if (err) {
+            console.log("coudn't find survey");
+            return res.status(400).json(///
                     { 
-                      success: false, 
-                      message: getErrorMessage(err)
+                        success: false, 
+                        message: 'coudnt find survey'
                     }
                 );
+        }
+        else {
+            //show the edit view
+            console.log("owner of survey is: ",surveytoCheck.username);
+
+            ///////////////////////
+            if (req.user.username == surveytoCheck.username) {
+        
+                Survey.remove({ _id: id }, (err) => {
+                    if (err) {
+                        console.log(err);
+                        //res.end(err);
+                        return res.status(400).json(///
+                            { 
+                              success: false, 
+                              message: getErrorMessage(err)
+                            }
+                        );
+                    }
+                    else {
+                        // refresh the book list
+                        //res.redirect('/survey/list_edit');
+                        return res.status(200).json(///
+                            { 
+                                success: true, 
+                                message: 'Item deleted successfully.'
+                            }
+                        );
+                    }
+                });
+                
             }
             else {
-                // refresh the book list
-                //res.redirect('/survey/list_edit');
-                return res.status(200).json(///
-                    { 
-                        success: true, 
-                        message: 'Item deleted successfully.'
-                    }
-                );
+                return res.status(400).json(///
+                            { 
+                                success: false, 
+                                message: 'unauthorized user'
+                            }
+                        );
+              
             }
-        });
         
-    }
-    else {
-        console.log(surveyList);
-        return res.status(200).json(///
-                    { 
-                        success: true, 
-                        message: 'unauthorized user.'
-                    }
-                );
-      
-    }
 
+        }
+    });
 
     
 }
